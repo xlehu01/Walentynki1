@@ -4,16 +4,14 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Dla Amelii ❤️</title>
+
 <style>
 *{margin:0;padding:0;box-sizing:border-box;font-family:Arial, sans-serif;}
 
 body{
 height:100vh;
-display:flex;
-justify-content:center;
-align-items:center;
-background:linear-gradient(135deg,#ff416c,#ff4b2b);
 overflow:hidden;
+background:linear-gradient(135deg,#ff416c,#ff4b2b);
 color:white;
 text-align:center;
 }
@@ -26,8 +24,8 @@ display:flex;
 flex-direction:column;
 justify-content:center;
 align-items:center;
-transition:0.5s;
-padding:20px;
+transition:opacity 0.8s ease;
+opacity:1;
 }
 
 .hidden{
@@ -37,8 +35,8 @@ pointer-events:none;
 
 .heart-big{
 font-size:100px;
-cursor:pointer;
 animation:pulse 1.5s infinite;
+cursor:pointer;
 }
 
 @keyframes pulse{
@@ -54,11 +52,6 @@ border-radius:20px;
 backdrop-filter:blur(10px);
 box-shadow:0 15px 40px rgba(0,0,0,0.5);
 position:relative;
-}
-
-h1{
-margin-bottom:20px;
-font-size:22px;
 }
 
 button{
@@ -81,9 +74,37 @@ color:white;
 position:absolute;
 }
 
-.message{
-margin-top:20px;
-font-size:20px;
+.final-bg{
+position:absolute;
+width:100%;
+height:100%;
+background:url('IMG_9811.jpg') center/cover no-repeat;
+animation:zoom 8s ease forwards;
+}
+
+@keyframes zoom{
+from{transform:scale(1);}
+to{transform:scale(1.1);}
+}
+
+.overlay{
+position:absolute;
+width:100%;
+height:100%;
+background:rgba(0,0,0,0.5);
+}
+
+.final-text{
+position:relative;
+z-index:2;
+font-size:28px;
+font-weight:bold;
+animation:fadeIn 2s ease forwards;
+opacity:0;
+}
+
+@keyframes fadeIn{
+to{opacity:1;}
 }
 
 .heart{
@@ -96,16 +117,11 @@ animation:float 5s linear infinite;
 0%{transform:translateY(100vh);}
 100%{transform:translateY(-10vh);}
 }
-
-.final-text{
-font-size:26px;
-font-weight:bold;
-}
 </style>
 </head>
 <body>
 
-<!-- EKRAN START -->
+<!-- START -->
 <div class="screen" id="start">
 <div class="heart-big" onclick="showQuestion()">❤️</div>
 <p>Kliknij serce</p>
@@ -114,17 +130,16 @@ font-weight:bold;
 <!-- PYTANIE -->
 <div class="screen hidden" id="question">
 <div class="card">
-<h1>Amelio ❤️<br>Czy zostaniesz walentynką Kacpra?</h1>
-
+<h2>Amelio ❤️<br>Czy zostaniesz walentynką Kacpra?</h2>
 <button id="yes" onclick="accepted()">TAK ❤️</button>
 <button id="no">NIE 😏</button>
-
-<div class="message" id="msg"></div>
 </div>
 </div>
 
-<!-- FINAŁ -->
+<!-- FINAL -->
 <div class="screen hidden" id="final">
+<div class="final-bg"></div>
+<div class="overlay"></div>
 <div class="final-text">
 Oficjalnie ❤️<br>
 Kacper & Amelia<br>
@@ -135,8 +150,7 @@ Walentynki 2026 💕
 <script>
 
 function showQuestion(){
-document.getElementById("start").classList.add("hidden");
-document.getElementById("question").classList.remove("hidden");
+fade("start","question");
 }
 
 const noBtn = document.getElementById("no");
@@ -149,12 +163,24 @@ noBtn.style.left = Math.random()*70 + "%";
 }
 
 function accepted(){
-document.getElementById("question").classList.add("hidden");
-document.getElementById("final").classList.remove("hidden");
+
+// WIBRACJA (działa na Android, część iOS nie wspiera)
+if(navigator.vibrate){
+navigator.vibrate([200,100,200]);
+}
+
+fade("question","final");
 
 for(let i=0;i<60;i++){
 createHeart();
 }
+}
+
+function fade(hideId, showId){
+document.getElementById(hideId).classList.add("hidden");
+setTimeout(()=>{
+document.getElementById(showId).classList.remove("hidden");
+},400);
 }
 
 function createHeart(){
