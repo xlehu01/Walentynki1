@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dla Amelii ❤️</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box;font-family:Arial, sans-serif;}
+
+body{
+height:100vh;
+display:flex;
+justify-content:center;
+align-items:center;
+background:linear-gradient(135deg,#ff416c,#ff4b2b);
+overflow:hidden;
+color:white;
+text-align:center;
+}
+
+.screen{
+position:absolute;
+width:100%;
+height:100%;
+display:flex;
+flex-direction:column;
+justify-content:center;
+align-items:center;
+transition:0.5s;
+padding:20px;
+}
+
+.hidden{
+opacity:0;
+pointer-events:none;
+}
+
+.heart-big{
+font-size:100px;
+cursor:pointer;
+animation:pulse 1.5s infinite;
+}
+
+@keyframes pulse{
+0%{transform:scale(1);}
+50%{transform:scale(1.2);}
+100%{transform:scale(1);}
+}
+
+.card{
+background:rgba(255,255,255,0.1);
+padding:30px;
+border-radius:20px;
+backdrop-filter:blur(10px);
+box-shadow:0 15px 40px rgba(0,0,0,0.5);
+position:relative;
+}
+
+h1{
+margin-bottom:20px;
+font-size:22px;
+}
+
+button{
+padding:15px 25px;
+font-size:16px;
+border:none;
+border-radius:50px;
+margin:10px;
+font-weight:bold;
+}
+
+#yes{
+background:white;
+color:#ff2e63;
+}
+
+#no{
+background:#ff2e63;
+color:white;
+position:absolute;
+}
+
+.message{
+margin-top:20px;
+font-size:20px;
+}
+
+.heart{
+position:absolute;
+font-size:20px;
+animation:float 5s linear infinite;
+}
+
+@keyframes float{
+0%{transform:translateY(100vh);}
+100%{transform:translateY(-10vh);}
+}
+
+.final-text{
+font-size:26px;
+font-weight:bold;
+}
+</style>
+</head>
+<body>
+
+<!-- EKRAN START -->
+<div class="screen" id="start">
+<div class="heart-big" onclick="showQuestion()">❤️</div>
+<p>Kliknij serce</p>
+</div>
+
+<!-- PYTANIE -->
+<div class="screen hidden" id="question">
+<div class="card">
+<h1>Amelio ❤️<br>Czy zostaniesz walentynką Kacpra?</h1>
+
+<button id="yes" onclick="accepted()">TAK ❤️</button>
+<button id="no">NIE 😏</button>
+
+<div class="message" id="msg"></div>
+</div>
+</div>
+
+<!-- FINAŁ -->
+<div class="screen hidden" id="final">
+<div class="final-text">
+Oficjalnie ❤️<br>
+Kacper & Amelia<br>
+Walentynki 2026 💕
+</div>
+</div>
+
+<script>
+
+function showQuestion(){
+document.getElementById("start").classList.add("hidden");
+document.getElementById("question").classList.remove("hidden");
+}
+
+const noBtn = document.getElementById("no");
+noBtn.addEventListener("touchstart", moveButton);
+noBtn.addEventListener("mouseover", moveButton);
+
+function moveButton(){
+noBtn.style.top = Math.random()*70 + "%";
+noBtn.style.left = Math.random()*70 + "%";
+}
+
+function accepted(){
+document.getElementById("question").classList.add("hidden");
+document.getElementById("final").classList.remove("hidden");
+
+for(let i=0;i<60;i++){
+createHeart();
+}
+}
+
+function createHeart(){
+const heart = document.createElement("div");
+heart.classList.add("heart");
+heart.innerHTML="❤️";
+heart.style.left=Math.random()*100+"vw";
+heart.style.fontSize=(Math.random()*20+15)+"px";
+heart.style.animationDuration=(Math.random()*3+3)+"s";
+document.body.appendChild(heart);
+setTimeout(()=>heart.remove(),5000);
+}
+
+</script>
+
+</body>
+</html>
